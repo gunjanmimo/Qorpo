@@ -9,7 +9,7 @@ from service.kucoin_service import (
 )
 from middleware.ccxt_handler import fetch_kucoin_currency_price
 
-# TODO: GET /price/{currency}
+# GET /price/{currency}
 """_summary_
 
 1. STEP 1: FETCH PRICE OF {CURRENCY} FROM KUCOIN
@@ -33,7 +33,7 @@ async def get_price(request):
     return web.json_response({"currency": currency, "price": price, "date": timestamp})
 
 
-# TODO: GET /price/history?page={page}
+# GET /price/history?page={page}
 """_summary_
 DEFAULT PAGE : 10 
 STEP 1: FETCH PRICE HISTORY DATA FROM DATABASE
@@ -43,13 +43,14 @@ STEP 2: RETURN THE PRICE HISTORY DATA TO THE USER
 
 async def get_price_history(request):
     page = request.query.get("page", 10)
+    currency = request.query.get("currency", None)
     # STEP 1: FETCH PRICE HISTORY DATA FROM DATABASE
-    price_history = get_all_price_history(page_no=page)
+    price_history = get_all_price_history(page_no=page, currency=currency)
     # STEP 2: RETURN THE PRICE HISTORY DATA TO THE USER
     return web.json_response(price_history)
 
 
-# TODO: DELETE price/history
+# DELETE price/history
 """_summary_
 
 STEP 1: DELETE ALL PRICE HISTORY DATA FROM DATABASE
