@@ -1,5 +1,6 @@
 # -------------------------------- PYTHON IMPORTS --------------------------------#
 from aiohttp import web
+from datetime import datetime, timezone
 
 # -------------------------------- LOCAL IMPORTS --------------------------------#
 from service.kucoin_service import (
@@ -29,7 +30,16 @@ async def get_price(request):
 
     # STEP 2: SAVE THE PRICE DATA TO DATABASE
     await save_currency_price(currency=currency, price=price, date_=timestamp)
+
+    # STEP 3: UPDATE THE TIMESTAMP  AND ROUND UPTO SECONDS
+    timestamp = datetime.fromisoformat(timestamp.rstrip("Z")).replace(
+        tzinfo=timezone.utc
+    )
+    timestamp = timestamp.replace(microsecond=0)
+    timestamp = timestamp.isoformat().replace("+00:00", "Z")
+
     # STEP 3: RETURN THE PRICE DATA TO THE USER
+
     return web.json_response({"currency": currency, "price": price, "date": timestamp})
 
 
