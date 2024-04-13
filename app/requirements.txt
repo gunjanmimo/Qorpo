@@ -1,0 +1,9 @@
+SQLAlchemy
+aiohttp[speedups]
+ccxt
+asyncio
+alembic
+pydantic
+pydantic-settings
+gunicorn
+psycopg2-binary
