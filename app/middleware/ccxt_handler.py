@@ -28,6 +28,9 @@ async def fetch_kucoin_currency_price(currency: str):
         dict: currency price, currency and date
     """
     # fetch price
-    response = await kucoin_exchange.fetch_ticker(currency)
+    try:
+        response = await kucoin_exchange.fetch_ticker(currency)
 
-    return currency, response["last"], response["datetime"]
+        return currency, response["last"], response["datetime"]
+    except:
+        return None, None, None

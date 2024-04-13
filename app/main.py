@@ -25,5 +25,3 @@ app.router.add_delete("/price/history", delete_price_history)
 
 # create tables
 Base.metadata.create_all(engine)
-# run the application
-# web.run_app(app, host="localhost", port=8080)

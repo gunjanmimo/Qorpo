@@ -22,6 +22,11 @@ async def get_price(request):
     currency = request.match_info["currency"]
     # STEP 1: FETCH PRICE OF {CURRENCY} FROM KUCOIN
     currency, price, timestamp = await fetch_kucoin_currency_price(currency)
+    if currency is None:
+        return web.json_response(
+            {"message": f"Price for {currency} not available at the moment"}, status=400
+        )
+
     # STEP 2: SAVE THE PRICE DATA TO DATABASE
     await save_currency_price(currency=currency, price=price, date_=timestamp)
     # STEP 3: RETURN THE PRICE DATA TO THE USER
